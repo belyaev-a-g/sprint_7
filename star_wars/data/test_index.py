@@ -21,11 +21,12 @@ def connect_to_vector_store(store_type):
 
 def search(vector_store, query):
 
-    results = vector_store.similarity_search(
-        query, k=5
-    )
+    results = vector_store.similarity_search(query, k=5)
     for res in results:
         print(f"* {res.page_content} [{res.metadata}]")
+    for i, doc in enumerate(results):
+        print(f"\nРезультат {i+1}:\n{doc.page_content}...")
+        print(f"\nSource :{doc.metadata["source"]}...")
 
 if __name__ == "__main__":
     vector_store = connect_to_vector_store("server")

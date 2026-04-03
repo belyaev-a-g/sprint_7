@@ -8,9 +8,6 @@ from qdrant_client import QdrantClient
 from qdrant_client.http.models import Distance, VectorParams
 from uuid import uuid4
 
-# Qdrant работает в контейнере
-# docker run -d --name qdrant -p 6333:6333 qdrant/qdrant
-
 # Загружаем документы
 def create_vector_store(store_type):
     logging.info("Читаем документы...")
@@ -30,8 +27,8 @@ def create_vector_store(store_type):
 
     # Разделение на чанки
     text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size=150,
-        chunk_overlap=20,
+        chunk_size=800,
+        chunk_overlap=100,
         separators=["\n\n", "\n", "(?<=\\. )", " ", ""],
         keep_separator=False
     )
@@ -65,7 +62,8 @@ def create_vector_store(store_type):
         embedding=embeddings,
     )
 
-    uuids = [str(uuid4()) for _ in range(len(chunks))]
+    uuids = [i for i in range(len(chunks))]
+    #uuids = [str(uuid4()) for _ in range(len(chunks))]
     vector_store.add_documents(documents=chunks, ids=uuids)
     logging.info(f"Загружено в Qdrant {len(chunks)} чанков")
     collection_info = client.get_collection(collection_name=collection_name)
