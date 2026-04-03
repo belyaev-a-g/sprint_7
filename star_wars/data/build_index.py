@@ -33,6 +33,10 @@ def create_vector_store(store_type):
         keep_separator=False
     )
     chunks = text_splitter.split_documents(documents)
+
+    for i, chunk in enumerate(chunks):
+        chunk.metadata["chunk_index"] = i
+
     logging.info(f"Документы разбиты на {len(chunks)} чанков")
 
     collection_name = "knowledge_base"
