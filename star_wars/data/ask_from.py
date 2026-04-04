@@ -89,7 +89,6 @@ def generate_answer(query: str, context):
 
     context_text = "\n".join(context)
 
-#Если ответа нет — скажи "Недостаточно данных".
     prompt = f"""
 Ответь на вопрос, используя только контекст.
 
@@ -99,6 +98,7 @@ def generate_answer(query: str, context):
 Вопрос:
 {query}
 
+Если ответа нет — скажи "Я не знаю".
 """
 
     headers = {
