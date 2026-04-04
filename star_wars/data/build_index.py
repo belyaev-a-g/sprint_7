@@ -27,7 +27,7 @@ def create_vector_store(store_type):
 
     # Разделение на чанки
     text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size=800,
+        chunk_size=500,
         chunk_overlap=100,
         separators=["\n\n", "\n", "(?<=\\. )", " ", ""],
         keep_separator=False

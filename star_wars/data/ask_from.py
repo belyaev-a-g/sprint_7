@@ -32,7 +32,7 @@ def search(vector_store, query):
         print(f"\nРезультат {i+1}:\n{doc.page_content}")
         print(f"\nSource: {doc.metadata["source"]}")
         
-        window_size=10
+        window_size=20
         source = doc.metadata["source"]
         current_idx = doc.metadata["_id"]
         current_chunk_idx = doc.metadata["chunk_index"]
@@ -85,7 +85,7 @@ def generate_answer(query: str, context):
     FOLDER_ID = os.getenv("YANDEX_FOLDER_ID", "ваш_folder_id_здесь")
 
     YANDEX_GPT_URL = "https://llm.api.cloud.yandex.net/foundationModels/v1/completion"
-    MODEL_URI = f"gpt://{FOLDER_ID}/yandexgpt-lite/latest"
+    MODEL_URI = f"gpt://{FOLDER_ID}/yandexgpt/latest"
 
     context_text = "\n".join(context)
 
