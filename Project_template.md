@@ -134,7 +134,7 @@ Kто вам даёт задачу и для кого вы её делаете?
 [terms_map.json](star_wars/data/terms_map.json) - словарь с заменой имён и названий  
 [knowledge_base](star_wars/data/knowledge_base) - база знаний  
 
-### Задание 3. Создание векторного индекса базы знаний
+## Задание 3. Создание векторного индекса базы знаний
 
 Для создания эмбеддинг-модели использовалась модель *[all-MiniLM-L6-v2]("sentence-transformers/all-MiniLM-L6-v2")*.  
 Разделение на чанки производилось при помощи langchain_text_splitters - RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=100)   
@@ -145,12 +145,36 @@ Kто вам даёт задачу и для кого вы её делаете?
 2026-04-05 13:03:39,909 INFO Загружено в Qdrant 6194 чанков  
 
 В метаданные каждого чанка были добавлены id(сквозной номер чанка) и source(исходный файл из knowledge_base).  
+Генерация заняла 2 минуты.  
 
 [build_index.py](star_wars/data/build_index.py) - скрипт с созданием коллекции в Qdrant  
 [build_index.log](star_wars/data/build_index.log) - журнал подготовки и загрузки эмбеддингов в БД  
 
 Скриншоты с Qdrant:  
-![qdrant_collections](star_wars/data/Qdrant_collections.png)
-![qdrant_data](star_wars/data/Qdrant_data.png)
-![qdrant_graph](star_wars/data/Qdrant_graph.png)
+![qdrant_collections](star_wars/data/images/Qdrant_collections.png)
+![qdrant_data](star_wars/data/images/Qdrant_data.png)
+![qdrant_graph](star_wars/data/images/Qdrant_graph.png)  
+
+Запросы к БД:
+![test_db_1.png](star_wars/data/images/test_db_1.png)  
+![test_db_2.png](star_wars/data/images/test_db_2.png)  
+![test_db_3.png](star_wars/data/images/test_db_3.png)  
+![test_db_4.png](star_wars/data/images/test_db_4.png)  
+
+
+## Задание 4. Реализация RAG-бота с техниками промптинга
+
+Задание выполнено в виде простого консольного скрипта.  
+[ask_from.py](star_wars/data/ask_from.py) - скрипт с запросом в LLM yandexgpt/latest  
+Применил Chain-of-Thought непосредственно в тексте запроса.  
+Few-shot не стал добавлять, т.к. модель отвечает и так хорошо.  
+
+Пример ответа модели:
+
+![good_answer](star_wars/data/images/test_RAG_fix_sources.png)
+Остальные варианты ответов:
+[ответ_1](star_wars/data/images/test_RAG_1.png)
+[ответ_2](star_wars/data/images/test_RAG_2.png)
+[модель захватила данные у себя](star_wars/data/images/test_RAG_bad_knowledge.png)
+[ответ "я не знаю"](star_wars/data/images/test_RAG_dont_know.png)
 

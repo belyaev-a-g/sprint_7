@@ -32,18 +32,18 @@ def search(vector_store, query):
         print(f"\nРезультат {i+1}:\n{doc.page_content}")
         print(f"\nSource: {doc.metadata["source"]}")
         
-        window_size=20
+        window_size=5
         source = doc.metadata["source"]
         current_idx = doc.metadata["_id"]
         current_chunk_idx = doc.metadata["chunk_index"]
         start_idx = max(0, current_idx - window_size)
         end_idx = current_idx + window_size
         source_file = doc.metadata.get("source")
-        print(f"\ncurrent_idx: {current_idx}")
-        print(f"\nstart_idx: {start_idx}")
-        print(f"\nend_idx: {end_idx}")
-        print(f"\nsource_file: {source_file}")
-        print(f"\ncurrent_chunk_idx: {current_chunk_idx}")
+        #print(f"\ncurrent_idx: {current_idx}")
+        #print(f"\nstart_idx: {start_idx}")
+        #print(f"\nend_idx: {end_idx}")
+        #print(f"\nsource_file: {source_file}")
+        #print(f"\ncurrent_chunk_idx: {current_chunk_idx}")
  
 
         # Если vector_store инициализирован через LangChain:
@@ -64,8 +64,8 @@ def search(vector_store, query):
             with_payload=True
         )  
 
-        print("len(window_chunks)")
-        print(len(window_chunks))
+        #print("len(window_chunks)")
+        #print(len(window_chunks))
     
         # 4. Сортируем по индексу, так как scroll возвращает их в случайном порядке
         sorted_points = sorted(window_chunks, key=lambda x: x.payload["metadata"]["chunk_index"])
@@ -73,9 +73,9 @@ def search(vector_store, query):
         # 5. Собираем итоговый текст
         full_text = full_text + "\n\n".join([p.payload["page_content"] for p in sorted_points])
 
-    print("full_text")
-    print(full_text)
-    print("full_text - DONE")
+    #print("full_text")
+    #print(full_text)
+    #print("full_text - DONE")
     return full_text
 
 
@@ -85,12 +85,17 @@ def generate_answer(query: str, context):
     FOLDER_ID = os.getenv("YANDEX_FOLDER_ID", "ваш_folder_id_здесь")
 
     YANDEX_GPT_URL = "https://llm.api.cloud.yandex.net/foundationModels/v1/completion"
+    #MODEL_URI = f"gpt://{FOLDER_ID}/yandexgpt-lite/latest"
     MODEL_URI = f"gpt://{FOLDER_ID}/yandexgpt/latest"
 
     context_text = "\n".join(context)
 
     prompt = f"""
+Ты RAG-помощник по внутренней базе знаний. 
 Ответь на вопрос, используя только контекст.
+Если данных недостаточно, отвечай строго: 'Я не знаю'. 
+В конце перечисли источники.
+Сначала покажи краткие шаги рассуждения (CoT в явном виде), затем дай ответ. 
 
 Контекст:
 {context_text}
@@ -98,7 +103,6 @@ def generate_answer(query: str, context):
 Вопрос:
 {query}
 
-Если ответа нет — скажи "Я не знаю".
 """
 
     headers = {
@@ -122,9 +126,9 @@ def generate_answer(query: str, context):
     }
 
     response = requests.post(YANDEX_GPT_URL, headers=headers, json=data)
-    print("response begin")
-    print(response)
-    print("response end")
+    #print("response begin")
+    #print(response)
+    #print("response end")
     response.raise_for_status()
 
     result = response.json()
