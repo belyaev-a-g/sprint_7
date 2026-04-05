@@ -171,10 +171,10 @@ Few-shot не стал добавлять, т.к. модель отвечает 
 
 Пример ответа модели:
 
-![good_answer](star_wars/data/images/test_RAG_fix_sources.png)
-Остальные варианты ответов:
+![good_answer](star_wars/data/images/test_RAG_fix_sources.png)  
+Остальные варианты ответов:  
 [ответ_1](star_wars/data/images/test_RAG_1.png)  
 [ответ_2](star_wars/data/images/test_RAG_2.png)  
-[модель захватила данные у себя](star_wars/data/images/test_RAG_bad_knowledge.png)  
+[модель захватила данные у себя](star_wars/data/images/test_RAG_bad_knowledge.png) - из-за плохо очищенных данных модель нашла сопоставление событий с вселенной "Звёздных войн"  
 [ответ "я не знаю"](star_wars/data/images/test_RAG_dont_know.png)  
 
