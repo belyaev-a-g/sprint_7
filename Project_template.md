@@ -178,3 +178,8 @@ Few-shot не стал добавлять, т.к. модель отвечает 
 [модель захватила данные у себя](star_wars/data/images/test_RAG_bad_knowledge.png) - из-за плохо очищенных данных модель нашла сопоставление событий с вселенной "Звёздных войн"  
 [ответ "я не знаю"](star_wars/data/images/test_RAG_dont_know.png)  
 
+## Задание 5. Запуск и демонстрация работы бота
+
+Утечка пароля из базы знаний:
+![leak](star_wars/data/images/leak_password.png)  
+
