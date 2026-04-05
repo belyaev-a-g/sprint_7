@@ -126,3 +126,31 @@ Kто вам даёт задачу и для кого вы её делаете?
 
 
 ## Задание 2. Подготовка базы знаний
+
+В качестве предметной базы была выбрана тема ["Звёздные войны"](https://starwars.fandom.com/ru/wiki/%D0%97%D0%B0%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F_%D1%81%D1%82%D1%80%D0%B0%D0%BD%D0%B8%D1%86%D0%B0) из русскоязычного фандома.  
+[crawler.py](star_wars/data/crawler.py) - скрипт для скачивания данных с сайта  
+[generate_knowledge_base.py](star_wars/data/generate_knowledge_base.py) - скрипт для модификации исходных файлов и создания базы знаний  
+[source](star_wars/data/source) - каталог с исходными скачанными файлами  
+[terms_map.json](star_wars/data/terms_map.json) - словарь с заменой имён и названий  
+[knowledge_base](star_wars/data/knowledge_base) - база знаний  
+
+### Задание 3. Создание векторного индекса базы знаний
+
+Для создания эмбеддинг-модели использовалась модель *[all-MiniLM-L6-v2]("sentence-transformers/all-MiniLM-L6-v2")*.  
+Разделение на чанки производилось при помощи langchain_text_splitters - RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=100)   
+В качестве векторной БД использовался Qdrant, запущенный в отдельном контейнере(localhost:6333).  
+Разбиение и загрузка чанков в Qdrant:  
+2026-04-05 13:01:43,680 INFO Прочитано 31 документов  
+2026-04-05 13:01:43,861 INFO Документы разбиты на 6194 чанков  
+2026-04-05 13:03:39,909 INFO Загружено в Qdrant 6194 чанков  
+
+В метаданные каждого чанка были добавлены id(сквозной номер чанка) и source(исходный файл из knowledge_base).  
+
+[build_index.py](star_wars/data/build_index.py) - скрипт с созданием коллекции в Qdrant  
+[build_index.log](star_wars/data/build_index.log) - журнал подготовки и загрузки эмбеддингов в БД  
+
+Скриншоты с Qdrant:  
+![qdrant_collections](star_wars/data/Qdrant_collections.png)
+![qdrant_data](star_wars/data/Qdrant_data.png)
+![qdrant_graph](star_wars/data/Qdrant_graph.png)
+
